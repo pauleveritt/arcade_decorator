@@ -20,5 +20,6 @@ it is to have a top-level domain-specific "world".
 ## Questions
 
 * To avoid global window, while preserving previous API, 
-  probably means some major reshuffling
+probably means some major reshuffling. Perhaps mirror on 
+game e.g. game.draw_text
   

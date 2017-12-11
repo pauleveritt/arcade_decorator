@@ -18,7 +18,8 @@ class game(arcade.Window):
         setup=[],
         update=[],
         key_press=[],
-        draw=[]
+        draw=[],
+        world=None
     )
 
     def __init__(self, width: int, height: int, background_color=None):
@@ -34,7 +35,7 @@ class game(arcade.Window):
         for func in cls.registry['setup']:
             if cls._world is not None:
                 # Pass world instance as self
-                func(cls._world, cls._window)
+                func(cls._world)
             else:
                 func(cls._window)
 
@@ -45,7 +46,7 @@ class game(arcade.Window):
         for func in cls.registry['draw']:
             if cls._world is not None:
                 # Pass world instance as self
-                func(cls._world, cls._window)
+                func(cls._world)
             else:
                 func(cls._window)
 
@@ -54,7 +55,7 @@ class game(arcade.Window):
         for func in cls.registry['update']:
             if cls._world is not None:
                 # Pass world instance as self
-                func(cls._world, cls._window, delta_time)
+                func(cls._world, delta_time)
             else:
                 func(cls._window, delta_time)
 
@@ -63,7 +64,7 @@ class game(arcade.Window):
         for func in cls.registry['key_press']:
             if cls._world is not None:
                 # Pass world instance as self
-                func(cls._world, cls._window, key, key_modifiers)
+                func(cls._world, key, key_modifiers)
             else:
                 func(cls._window, key, key_modifiers)
 
@@ -90,15 +91,14 @@ class game(arcade.Window):
 
     @classmethod
     def world(cls, original_world):
-        """ Class-based games need to register the class
-
-         We then make instance and pass it as self when calling things. """
-
-        cls._world = original_world()
+        cls.registry['world'] = original_world
 
     @classmethod
     def run(cls, width: int = 600, height: int = 400,
             background_color=arcade.color.WHEAT):
         cls._window = game(width, height, background_color)
+        # If a world is registered, instantiate it
+        if cls.registry['world']:
+            cls._world = cls.registry['world'](cls._window)
         cls.setup()
         arcade.run()

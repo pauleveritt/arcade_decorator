@@ -1,6 +1,6 @@
 """
 
-Simplest possible game.
+Simplest possible game, as function.
 
 """
 import arcade
