@@ -24,12 +24,6 @@ class MyGame:
         # Don't have to store this on the window this time
         self.ball: Ball = Ball()
 
-    @arcade.init
-    def setup_my_game(self):
-        # Might still have some work to do on the window after it is
-        # constructed
-        pass
-
     @arcade.animate
     def move_ball(self, delta_time):
         self.ball.x_position += self.ball.velocity * delta_time
