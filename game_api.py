@@ -11,19 +11,19 @@ import arcade
 
 from singleton import singleton_object, Singleton
 
-SCREEN_WIDTH = 500
-SCREEN_HEIGHT = 600
-BALL_RADIUS = 20
-
 
 class GameWindow(arcade.Window):
 
-    def __init__(self, base_game, width, height):
+    def __init__(self, base_game, width: int, height: int,
+                 ball_radius: int = 20):
         super().__init__(width, height)
 
-        self.base_game = base_game
+        self.base_game: game = base_game
+        self.width = width
+        self.height = height
+        self.ball_radius = ball_radius
 
-        self.ball_x_position = BALL_RADIUS
+        self.ball_x_position = ball_radius
         self.ball_x_pixels_per_second = 70
 
         arcade.set_background_color(arcade.color.WHITE)
@@ -45,6 +45,7 @@ class GameWindow(arcade.Window):
 
 @singleton_object
 class game(metaclass=Singleton):
+    window: GameWindow
     registry = dict(
         update=[],
         key_press=[],
@@ -52,7 +53,7 @@ class game(metaclass=Singleton):
     )
 
     def __init__(self):
-        self.window = GameWindow(self, SCREEN_WIDTH, SCREEN_HEIGHT)
+        self.flag = 99
 
     @classmethod
     def draw(cls, original_function):
@@ -70,5 +71,6 @@ class game(metaclass=Singleton):
         return original_function
 
     @classmethod
-    def run(cls, *args, **kwargs):
+    def run(cls, width: int = 600, height: int = 400, **kwargs):
+        cls.window = GameWindow(cls, width, height)
         arcade.run()
