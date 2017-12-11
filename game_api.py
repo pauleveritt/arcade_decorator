@@ -93,6 +93,12 @@ class game(arcade.Window):
     def world(cls, original_world):
         cls.registry['world'] = original_world
 
+    # Now re-implement the arcade drawing methods, to avoid use of
+    # global window (for now, faking the re-implementation)
+    @classmethod
+    def draw_text(cls, *args, **kwargs):
+        arcade.draw_text(*args, **kwargs)
+
     @classmethod
     def run(cls, width: int = 600, height: int = 400,
             background_color=arcade.color.WHEAT):

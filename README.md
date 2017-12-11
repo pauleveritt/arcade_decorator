@@ -17,6 +17,9 @@ might want a sorting mechanism later
 It's no longer needed to be the pyglet machinery. Let's say 
 it is to have a top-level domain-specific "world".
 
+* For function-based, we could allow "window" to be optional 
+by sniffing the signature to see if they ask for it.
+
 ## Questions
 
 * To avoid global window, while preserving previous API, 
