@@ -13,4 +13,5 @@ def draw_hello(window):
     arcade.draw_text("Hello World", 10, 100, arcade.color.BLACK, 20)
 
 
-game.run()
+if __name__ == '__main__':
+    game.run()

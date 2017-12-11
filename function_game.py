@@ -10,7 +10,7 @@ class Ball:
         self.radius = radius
 
 
-@game.setup
+@game.init
 def setup_my_game(window):
     window.ball: Ball = Ball()
 
@@ -21,7 +21,7 @@ def press_space(window, key, key_modifiers):
         print("You pressed the space bar.")
 
 
-@game.update
+@game.animate
 def move_ball(window, delta_time):
     window.ball.x_position += window.ball.velocity * delta_time
 
