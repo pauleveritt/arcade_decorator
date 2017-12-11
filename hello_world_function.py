@@ -12,4 +12,4 @@ def draw_hello():
 
 
 if __name__ == '__main__':
-    arcade.run()
+    arcade.run(420, 240, title='Hi', background_color=(100, 100, 100))
