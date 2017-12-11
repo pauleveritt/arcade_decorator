@@ -49,4 +49,4 @@ def draw_some_second_stuff(window):
 
 
 if __name__ == "__main__":
-    game.run(700, 600)
+    game.run(700, 600, background_color=arcade.color.MAHOGANY)
