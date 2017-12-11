@@ -3,6 +3,7 @@
 This repo has some games that show an new, parallel, alternative 
 API for making games:
 
+* hello_world.py has an imperative approach
 * hello_world_function.py is a tiny function-based approach
 * hello_world_class.py is the same, class-based
 * multiple_hello_world.py shows two handlers, one with an optional 
@@ -10,6 +11,9 @@ argument
 * function_game.py and class_game.py show a bit more
 
 This API currently shows the following:
+
+* Imperative eliminates construction of window, set background 
+color, and start render.
 
 * Eliminates `start_render` by having the decorator construct 
 the window and call start_render.

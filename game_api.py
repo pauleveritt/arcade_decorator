@@ -21,7 +21,8 @@ class game(arcade.Window):
         update=[],
         key_press=[],
         draw=[],
-        world=None
+        world=None,
+        deferred_drawing=[]
     )
 
     def __init__(self, width: int, height: int, background_color=None):
@@ -49,6 +50,14 @@ class game(arcade.Window):
     def on_draw(cls):
         arcade.start_render()
 
+        # Process any deferred imperative drawing
+        for drawing in cls.registry['deferred_drawing']:
+            this_cmd = getattr(arcade, drawing['cmd'])
+            this_args = drawing['args']
+            this_kwargs = drawing['kwargs']
+            this_cmd(*this_args, **this_kwargs)
+
+        # Now run registered handlers
         for func in cls.registry['draw']:
             if cls._world is not None:
                 # Pass world instance as self
@@ -115,7 +124,15 @@ class game(arcade.Window):
     # global window (for now, faking the re-implementation)
     @classmethod
     def draw_text(cls, *args, **kwargs):
-        arcade.draw_text(*args, **kwargs)
+        # Imperative mode means no event-handler functions, simplest
+        # possible mode. Detect this by seeing if run has been called. If
+        # not, then defer this drawing.
+        if cls._window is None:
+            cls.registry['deferred_drawing'].append(
+                dict(cmd='draw_text', args=args, kwargs=kwargs)
+            )
+        else:
+            arcade.draw_text(*args, **kwargs)
 
     @classmethod
     def run(cls, width: int = 600, height: int = 400,
