@@ -14,13 +14,13 @@ from singleton import singleton_object, Singleton
 
 class GameWindow(arcade.Window):
 
-    def __init__(self, base_game, width: int, height: int):
+    def __init__(self, base_game, width: int, height: int, background_color):
         super().__init__(width, height)
 
         self.base_game: game = base_game
         self.width = width
         self.height = height
-        arcade.set_background_color(arcade.color.WHITE)
+        arcade.set_background_color(background_color)
 
     def setup(self):
         for func in self.base_game.registry['setup']:
@@ -52,7 +52,7 @@ class game(metaclass=Singleton):
     )
 
     def __init__(self):
-        self.flag = 99
+        self.flag = 99  # Not used at all, might want to re-think later
 
     @classmethod
     def setup(cls, original_function):
@@ -75,7 +75,8 @@ class game(metaclass=Singleton):
         return original_function
 
     @classmethod
-    def run(cls, width: int = 600, height: int = 400, **kwargs):
-        cls.window = GameWindow(cls, width, height)
+    def run(cls, width: int = 600, height: int = 400,
+            background_color=arcade.color.WHEAT):
+        cls.window = GameWindow(cls, width, height, background_color)
         cls.window.setup()
         arcade.run()

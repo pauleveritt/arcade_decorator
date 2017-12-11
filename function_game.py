@@ -1,52 +1,52 @@
-from arcade import key, color, draw_circle_filled, draw_text
+import arcade
 
 from game_api import game
 
-SCREEN_WIDTH = 700
-SCREEN_HEIGHT = 500
-BALL_RADIUS = 20
+
+class Ball:
+    def __init__(self, radius=20, velocity=70, initial_x=20):
+        self.x_position = initial_x
+        self.velocity = velocity
+        self.radius = radius
 
 
 @game.setup
 def setup_my_game(window):
-    window.ball_radius = BALL_RADIUS
-
-    window.ball_x_position = BALL_RADIUS
-    window.ball_x_pixels_per_second = 70
+    window.ball: Ball = Ball()
 
 
 @game.key_press
 def press_space(window, key, key_modifiers):
-    if key == key.SPACE:
+    if key == arcade.key.SPACE:
         print("You pressed the space bar.")
 
 
 @game.update
 def move_ball(window, delta_time):
-    window.ball_x_position += window.ball_x_pixels_per_second * delta_time
+    window.ball.x_position += window.ball.velocity * delta_time
 
     # Did the ball hit the right side of the screen while moving right?
-    if window.ball_x_position > SCREEN_WIDTH - BALL_RADIUS \
-            and window.ball_x_pixels_per_second > 0:
-        window.ball_x_pixels_per_second *= -1
+    if window.ball.x_position > window.width - window.ball.radius \
+            and window.ball.velocity > 0:
+        window.ball.velocity *= -1
 
     # Did the ball hit the left side of the screen while moving left?
-    if window.ball_x_position < BALL_RADIUS \
-            and window.ball_x_pixels_per_second < 0:
-        window.ball_x_pixels_per_second *= -1
+    if window.ball.x_position < window.ball.radius \
+            and window.ball.velocity < 0:
+        window.ball.velocity *= -1
 
 
 @game.draw
 def draw_some_first_stuff(window):
-    draw_circle_filled(window.ball_x_position, SCREEN_HEIGHT // 2,
-                       BALL_RADIUS, color.GREEN)
+    arcade.draw_circle_filled(window.ball.x_position, window.height // 2,
+                       window.ball.radius, arcade.color.GREEN)
 
 
 @game.draw
 def draw_some_second_stuff(window):
-    draw_text("This is a simple template to start your game.",
-              10, SCREEN_HEIGHT // 2, color.BLACK, 20)
+    arcade.draw_text("This is a simple template to start your game.",
+              10, window.height // 2, arcade.color.BLACK, 20)
 
 
 if __name__ == "__main__":
-    game.run(SCREEN_WIDTH, SCREEN_HEIGHT)
+    game.run(700, 600)
