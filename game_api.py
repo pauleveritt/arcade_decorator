@@ -5,8 +5,9 @@ import arcade
 
 class ArcadeWindow(arcade.Window):
     def __init__(self, registry: dict, width: int, height: int,
+                 title='Arcade Window',
                  background_color=None):
-        super().__init__(width, height)
+        super().__init__(width, height, title=title)
 
         self.registry = registry
         self.width = width
@@ -142,9 +143,11 @@ class arcadeapi(arcade.Window):
 
     @classmethod
     def run(cls, width: int = 600, height: int = 400,
+            title='Arcade Demo',
             background_color=arcade.color.WHEAT):
         cls.registry['window'] = ArcadeWindow(
             cls.registry, width, height,
+            title=title,
             background_color=background_color)
 
         # If a game is registered, instantiate it

@@ -13,7 +13,8 @@ argument
 This API currently shows the following:
 
 * Imperative eliminates construction of window, set background 
-color, and start render.
+color, and start render. You can pass arguments to run to customize 
+some window stuff (width, height, title, background color.)
 
 * Eliminates `start_render` by having the decorator construct 
 the window and call start_render.
@@ -22,31 +23,20 @@ the window and call start_render.
 
 * We can present an alternative to the pyglet API
 
-* Optional arguments (e.g. window)
+* Your functions can skip asking for a window, or if they ask, we'll 
+sniff at it and supply it.
 
 * Parallel (currently faked) versions of the Arcade API which 
 don't use a global window.
 
 ## Goals
 
-* Promote the use/value of type hinting
-
+* Eliminate some annoyances (start_render, imperative has to construct 
+a window, window as a global, making a user implement a window when 
+they want to implement a game)
 * Any global state can be easily reset (restarting a game, 
-testing, etc.)
-  
+testing, etc.)  
 * Sensible defaults: optional, and choosable
-
-## Implementation Notes
-
-* You can have as many functions as you want for a handler, 
-might want a sorting mechanism later
-
-* For class-based programs, what's the purpose of the class? 
-It's no longer needed to be the pyglet machinery. Let's say 
-it is to have a top-level domain-specific "world".
-
-* For function-based, allow "window" to be optional by 
-sniffing the signature to see if they ask for it.
 
 ## Questions
 
@@ -54,3 +44,5 @@ sniffing the signature to see if they ask for it.
 probably means some major reshuffling. Perhaps mirror on 
 game e.g. game.draw_text
   
+* We probably could make this do some batching/layers implicitly, without 
+the user thinking about it
