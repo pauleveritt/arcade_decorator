@@ -9,16 +9,19 @@ https://vimeo.com/168051968
 """
 import arcade
 
+from singleton import singleton_object, Singleton
+
 SCREEN_WIDTH = 500
 SCREEN_HEIGHT = 600
 BALL_RADIUS = 20
 
 
-class game(arcade.Window):
-    registry = []
+class GameWindow(arcade.Window):
 
-    def __init__(self, width, height):
+    def __init__(self, base_game, width, height):
         super().__init__(width, height)
+
+        self.base_game = base_game
 
         self.ball_x_position = BALL_RADIUS
         self.ball_x_pixels_per_second = 70
@@ -53,26 +56,23 @@ class game(arcade.Window):
                 and self.ball_x_pixels_per_second < 0:
             self.ball_x_pixels_per_second *= -1
 
-    @classmethod
-    def on_key_press(cls, key, key_modifiers):
-        print(game.registry)
-        for func in game.registry:
+    def on_key_press(self, key, key_modifiers):
+        for func in self.base_game.registry:
             func(key)
 
-        # if key == arcade.key.SPACE and key_modifiers == arcade.key.MOD_SHIFT:
-        #     print("You pressed shift-space")
-        #
-        # # See if the user just hit space.
-        # elif key == arcade.key.SPACE:
-        #     print("You pressed the space bar.")
+
+@singleton_object
+class game(metaclass=Singleton):
+    registry = []
+
+    def __init__(self):
+        self.window = GameWindow(self, SCREEN_WIDTH, SCREEN_HEIGHT)
 
     @classmethod
     def key_press(cls, original_function):
-        game.registry.append(original_function)
+        cls.registry.append(original_function)
         return original_function
 
     @classmethod
     def run(cls, *args, **kwargs):
-        cls.registry = []
-        cls(SCREEN_WIDTH, SCREEN_HEIGHT)
         arcade.run()

@@ -50,24 +50,21 @@ def singleton_object(cls):
 
 @singleton_object
 class MyGame(metaclass=Singleton):
+    registry = []
+
     def __init__(self):
-        self.x = 99
+        self.y = 99
 
     @classmethod
     def wrapper(cls, func):
-        MyGame.x += 1
-        print('wrapped', MyGame.x)
+        cls.registry.append(func)
         return func
 
 
 @MyGame.wrapper
 def hello_world():
-    print('hello world')
+    print('hello world', MyGame.registry)
 
 
 if __name__ == '__main__':
-    hello_world()
-    hello_world()
-    hello_world()
-    hello_world()
     hello_world()
