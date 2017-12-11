@@ -4,18 +4,18 @@ Simplest possible game, as class.
 
 """
 
-from game_api import game
+from game_api import arcadeapi as arcade
 
 
-@game.world
+@arcade.world
 class HelloWorld:
-    def __init__(self, window: game):
+    def __init__(self, window: arcade):
         self.window = window
 
-    @game.draw
+    @arcade.draw
     def draw_hello(self):
-        game.draw_text('Hello World', 10, 100, (0, 0, 0), 20)
+        arcade.draw_text('Hello World', 10, 100, (0, 0, 0), 20)
 
 
 if __name__ == '__main__':
-    game.run()
+    arcade.run()

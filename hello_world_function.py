@@ -3,13 +3,13 @@
 Simplest possible game, as function.
 
 """
-from game_api import game
+from game_api import arcadeapi as arcade
 
 
-@game.draw
+@arcade.draw
 def draw_hello():
-    game.draw_text('Hello World', 10, 200, (0, 0, 0), 20)
+    arcade.draw_text('Hello World', 10, 200, (0, 0, 0), 20)
 
 
 if __name__ == '__main__':
-    game.run()
+    arcade.run()

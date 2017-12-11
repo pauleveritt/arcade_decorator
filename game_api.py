@@ -1,10 +1,9 @@
 from inspect import signature
-from typing import Any
 
 import arcade
 
 
-class game(arcade.Window):
+class arcadeapi(arcade.Window):
     _window = None  # This will hold instance of self as "global"
     _world = None  # Class-based games register a world, we store instance
 
@@ -13,7 +12,7 @@ class game(arcade.Window):
         update=[],
         key_press=[],
         draw=[],
-        world=Any,
+        world=None,
         deferred_drawing=[]
     )
 
@@ -114,6 +113,9 @@ class game(arcade.Window):
 
     # Now re-implement the arcade drawing methods, to avoid use of
     # global window (for now, faking the re-implementation)
+    color = arcade.color
+    key = arcade.key
+
     @classmethod
     def draw_text(cls, *args, **kwargs):
         # Imperative mode means no event-handler functions, simplest
@@ -127,9 +129,18 @@ class game(arcade.Window):
             arcade.draw_text(*args, **kwargs)
 
     @classmethod
+    def draw_circle_filled(cls, *args, **kwargs):
+        if cls._window is None:
+            cls.registry['deferred_drawing'].append(
+                dict(cmd='draw_circle_filled', args=args, kwargs=kwargs)
+            )
+        else:
+            arcade.draw_circle_filled(*args, **kwargs)
+
+    @classmethod
     def run(cls, width: int = 600, height: int = 400,
             background_color=arcade.color.WHEAT):
-        cls._window = game(width, height, background_color)
+        cls._window = arcadeapi(width, height, background_color)
         # If a world is registered, instantiate it
         if cls.registry['world']:
             cls._world = cls.registry['world'](cls._window)

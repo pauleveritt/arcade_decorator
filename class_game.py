@@ -5,7 +5,7 @@ Class version of function_game
 """
 import arcade
 
-from game_api import game
+from game_api import arcadeapi as arcade
 
 
 class Ball:
@@ -15,22 +15,22 @@ class Ball:
         self.radius = radius
 
 
-@game.world
+@arcade.world
 class MyGame:
-    def __init__(self, window: game):
+    def __init__(self, window: arcade):
         self.window = window
         self.starting_text = 'Hello World'
 
         # Don't have to store this on the window this time
         self.ball: Ball = Ball()
 
-    @game.init
+    @arcade.init
     def setup_my_game(self):
         # Might still have some work to do on the window after it is
         # constructed
         pass
 
-    @game.animate
+    @arcade.animate
     def move_ball(self, delta_time):
         self.ball.x_position += self.ball.velocity * delta_time
 
@@ -44,22 +44,22 @@ class MyGame:
                 and self.ball.velocity < 0:
             self.ball.velocity *= -1
 
-    @game.draw
+    @arcade.draw
     def draw_the_ball(self):
         arcade.draw_circle_filled(self.ball.x_position,
                                   self.window.height // 2,
                                   self.ball.radius, arcade.color.GREEN)
 
-    @game.draw
+    @arcade.draw
     def draw_some_text(self):
         arcade.draw_text("This is a simple template to start your game.",
                          10, self.window.height // 2, arcade.color.BLACK, 20)
 
-    @game.key_press
+    @arcade.key_press
     def press_space(self, key, key_modifiers):
         if key == arcade.key.SPACE:
             print("You pressed the space bar.")
 
 
 if __name__ == '__main__':
-    game.run()
+    arcade.run()

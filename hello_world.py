@@ -3,7 +3,7 @@
 Simplest possible game.
 
 """
-from game_api import game
+from game_api import arcadeapi as arcade
 
-game.draw_text('Hello World', 10, 200, (0, 0, 0), 20)
-game.run(420, 240, background_color=(100, 100, 100))
+arcade.draw_text('Hello World', 10, 200, (0, 0, 0), 20)
+arcade.run(420, 240, background_color=(100, 100, 100))
