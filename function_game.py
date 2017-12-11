@@ -41,7 +41,7 @@ def draw_some_text(window):
 
 
 @arcade.key_press
-def press_space(window, key, key_modifiers):
+def press_space(key, key_modifiers):
     if key == arcade.key.SPACE:
         print("You pressed the space bar.")
 
