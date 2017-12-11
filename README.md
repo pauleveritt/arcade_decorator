@@ -8,3 +8,8 @@
   
 * Sensible defaults: optional, and choosable
 
+## Questions
+
+* To avoid global window, while preserving previous API, 
+  probably means some major reshuffling
+  
