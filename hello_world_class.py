@@ -7,7 +7,7 @@ Simplest possible game, as class.
 from game_api import arcadeapi as arcade
 
 
-@arcade.world
+@arcade.game
 class HelloWorld:
     def __init__(self, window: arcade):
         self.window = window

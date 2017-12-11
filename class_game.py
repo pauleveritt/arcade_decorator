@@ -15,7 +15,7 @@ class Ball:
         self.radius = radius
 
 
-@arcade.world
+@arcade.game
 class MyGame:
     def __init__(self, window: arcade):
         self.window = window

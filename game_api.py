@@ -5,14 +5,14 @@ import arcade
 
 class arcadeapi(arcade.Window):
     _window = None  # This will hold instance of self as "global"
-    _world = None  # Class-based games register a world, we store instance
+    _game = None  # Class-based games register a game, we store instance
 
     registry = dict(
         setup=[],
         update=[],
         key_press=[],
         draw=[],
-        world=None,
+        game=None,
         deferred_drawing=[]
     )
 
@@ -27,9 +27,9 @@ class arcadeapi(arcade.Window):
     @classmethod
     def setup(cls):
         for func in cls.registry['setup']:
-            if cls._world is not None:
-                # Pass world instance as self
-                func(cls._world)
+            if cls._game is not None:
+                # Pass game instance as self
+                func(cls._game)
             else:
                 sig = signature(func)
                 if 'window' in sig.parameters:
@@ -50,9 +50,9 @@ class arcadeapi(arcade.Window):
 
         # Now run registered handlers
         for func in cls.registry['draw']:
-            if cls._world is not None:
-                # Pass world instance as self
-                func(cls._world)
+            if cls._game is not None:
+                # Pass game instance as self
+                func(cls._game)
             else:
                 sig = signature(func)
                 if 'window' in sig.parameters:
@@ -63,9 +63,9 @@ class arcadeapi(arcade.Window):
     @classmethod
     def update(cls, delta_time):
         for func in cls.registry['update']:
-            if cls._world is not None:
-                # Pass world instance as self
-                func(cls._world, delta_time)
+            if cls._game is not None:
+                # Pass game instance as self
+                func(cls._game, delta_time)
             else:
                 sig = signature(func)
                 if 'window' in sig.parameters:
@@ -76,9 +76,9 @@ class arcadeapi(arcade.Window):
     @classmethod
     def on_key_press(cls, key, key_modifiers):
         for func in cls.registry['key_press']:
-            if cls._world is not None:
-                # Pass world instance as self
-                func(cls._world, key, key_modifiers)
+            if cls._game is not None:
+                # Pass game instance as self
+                func(cls._game, key, key_modifiers)
             else:
                 sig = signature(func)
                 if 'window' in sig.parameters:
@@ -108,8 +108,8 @@ class arcadeapi(arcade.Window):
         return original_function
 
     @classmethod
-    def world(cls, original_world):
-        cls.registry['world'] = original_world
+    def game(cls, original_game):
+        cls.registry['game'] = original_game
 
     # Now re-implement the arcade drawing methods, to avoid use of
     # global window (for now, faking the re-implementation)
@@ -141,8 +141,8 @@ class arcadeapi(arcade.Window):
     def run(cls, width: int = 600, height: int = 400,
             background_color=arcade.color.WHEAT):
         cls._window = arcadeapi(width, height, background_color)
-        # If a world is registered, instantiate it
-        if cls.registry['world']:
-            cls._world = cls.registry['world'](cls._window)
+        # If a game is registered, instantiate it
+        if cls.registry['game']:
+            cls._game = cls.registry['game'](cls._window)
         cls.setup()
         arcade.run()
