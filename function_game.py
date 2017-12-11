@@ -7,6 +7,14 @@ SCREEN_HEIGHT = 500
 BALL_RADIUS = 20
 
 
+@game.setup
+def setup_my_game(window):
+    window.ball_radius = BALL_RADIUS
+
+    window.ball_x_position = BALL_RADIUS
+    window.ball_x_pixels_per_second = 70
+
+
 @game.key_press
 def press_space(window, key, key_modifiers):
     if key == key.SPACE:

@@ -14,19 +14,17 @@ from singleton import singleton_object, Singleton
 
 class GameWindow(arcade.Window):
 
-    def __init__(self, base_game, width: int, height: int,
-                 ball_radius: int = 20):
+    def __init__(self, base_game, width: int, height: int):
         super().__init__(width, height)
 
         self.base_game: game = base_game
         self.width = width
         self.height = height
-        self.ball_radius = ball_radius
-
-        self.ball_x_position = ball_radius
-        self.ball_x_pixels_per_second = 70
-
         arcade.set_background_color(arcade.color.WHITE)
+
+    def setup(self):
+        for func in self.base_game.registry['setup']:
+            func(self)
 
     def on_draw(self):
         arcade.start_render()
@@ -47,6 +45,7 @@ class GameWindow(arcade.Window):
 class game(metaclass=Singleton):
     window: GameWindow
     registry = dict(
+        setup=[],
         update=[],
         key_press=[],
         draw=[]
@@ -54,6 +53,11 @@ class game(metaclass=Singleton):
 
     def __init__(self):
         self.flag = 99
+
+    @classmethod
+    def setup(cls, original_function):
+        cls.registry['setup'].append(original_function)
+        return original_function
 
     @classmethod
     def draw(cls, original_function):
@@ -73,4 +77,5 @@ class game(metaclass=Singleton):
     @classmethod
     def run(cls, width: int = 600, height: int = 400, **kwargs):
         cls.window = GameWindow(cls, width, height)
+        cls.window.setup()
         arcade.run()
