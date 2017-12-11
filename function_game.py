@@ -15,12 +15,6 @@ def setup_my_game(window):
     window.ball: Ball = Ball()
 
 
-@game.key_press
-def press_space(window, key, key_modifiers):
-    if key == arcade.key.SPACE:
-        print("You pressed the space bar.")
-
-
 @game.animate
 def move_ball(window, delta_time):
     window.ball.x_position += window.ball.velocity * delta_time
@@ -37,15 +31,21 @@ def move_ball(window, delta_time):
 
 
 @game.draw
-def draw_some_first_stuff(window):
+def draw_the_ball(window):
     arcade.draw_circle_filled(window.ball.x_position, window.height // 2,
-                       window.ball.radius, arcade.color.GREEN)
+                              window.ball.radius, arcade.color.GREEN)
 
 
 @game.draw
-def draw_some_second_stuff(window):
+def draw_some_text(window):
     arcade.draw_text("This is a simple template to start your game.",
-              10, window.height // 2, arcade.color.BLACK, 20)
+                     10, window.height // 2, arcade.color.BLACK, 20)
+
+
+@game.key_press
+def press_space(window, key, key_modifiers):
+    if key == arcade.key.SPACE:
+        print("You pressed the space bar.")
 
 
 if __name__ == "__main__":
