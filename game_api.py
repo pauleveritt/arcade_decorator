@@ -1,13 +1,5 @@
-"""
-Starting Template
-
-Once you have learned how to use classes, you can begin your program with this
-template.
-
-A walk-through of this code is available at:
-https://vimeo.com/168051968
-"""
 from inspect import signature
+from typing import Any
 
 import arcade
 
@@ -21,7 +13,7 @@ class game(arcade.Window):
         update=[],
         key_press=[],
         draw=[],
-        world=None,
+        world=Any,
         deferred_drawing=[]
     )
 
