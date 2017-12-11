@@ -7,6 +7,8 @@ template.
 A walk-through of this code is available at:
 https://vimeo.com/168051968
 """
+from inspect import signature
+
 import arcade
 
 
@@ -37,7 +39,11 @@ class game(arcade.Window):
                 # Pass world instance as self
                 func(cls._world)
             else:
-                func(cls._window)
+                sig = signature(func)
+                if 'window' in sig.parameters:
+                    func(cls._window)
+                else:
+                    func()
 
     @classmethod
     def on_draw(cls):
@@ -48,7 +54,11 @@ class game(arcade.Window):
                 # Pass world instance as self
                 func(cls._world)
             else:
-                func(cls._window)
+                sig = signature(func)
+                if 'window' in sig.parameters:
+                    func(cls._window)
+                else:
+                    func()
 
     @classmethod
     def update(cls, delta_time):
@@ -57,7 +67,11 @@ class game(arcade.Window):
                 # Pass world instance as self
                 func(cls._world, delta_time)
             else:
-                func(cls._window, delta_time)
+                sig = signature(func)
+                if 'window' in sig.parameters:
+                    func(cls._window, delta_time)
+                else:
+                    func(delta_time)
 
     @classmethod
     def on_key_press(cls, key, key_modifiers):
@@ -66,7 +80,11 @@ class game(arcade.Window):
                 # Pass world instance as self
                 func(cls._world, key, key_modifiers)
             else:
-                func(cls._window, key, key_modifiers)
+                sig = signature(func)
+                if 'window' in sig.parameters:
+                    func(cls._window, key, key_modifiers)
+                else:
+                    func(key, key_modifiers)
 
     # The decorators
     @classmethod
